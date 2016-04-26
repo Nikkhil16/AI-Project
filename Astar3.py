@@ -2,10 +2,14 @@ import numpy
 from prettytable import PrettyTable
 
 def initttt():
+    print "REACHING HERE?"
     closed = [[0 for row in range(len(grid[0]))] for col in range(len(grid))]
     available = []
     available1 =[[0 for row in range(len(grid[0]))] for col in range(len(grid))]
     count = 0
+    possible_children = []
+    real_children = []
+    return possible_children, real_children, closed, available, available1
 
 def m_heuristic(real_child,goal,count):
     x = real_child[0]
@@ -66,10 +70,13 @@ available1 =[[0 for row in range(len(grid[0]))] for col in range(len(grid))]
 init = [0, 0]
 goal = [len(grid)-1, len(grid[0])-1]
 count = 0
+possible_children = []
+real_children = []
 current = [count,init]
 print_current(current)
 
 while current[1][0] != goal[0] or current[1][1] != goal[1]:
+    print "checkit!!", possible_children
     closed[current[1][0]][current[1][1]]=1
     count += 1
     possible_children = psbl_children(current,grid)
@@ -86,7 +93,8 @@ while current[1][0] != goal[0] or current[1][1] != goal[1]:
     if actual_grid[next_step[1][0]][next_step[1][1]] == 1:
         print "Need to recalculate path"
         grid[next_step[1][0]][next_step[1][1]] = 1
-        initttt()
+        possible_children, real_children, closed, available, available1 = initttt()
+        print "This has to be reset",  possible_children, real_children, closed, available1
     else:
         current = next_step
         print_current(current)
